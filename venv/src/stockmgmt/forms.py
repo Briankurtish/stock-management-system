@@ -1,5 +1,5 @@
 from django import forms
-from .models import Stock
+from .models import *
 
 class StockCreateForm(forms.ModelForm):
   class Meta:
@@ -11,9 +11,7 @@ class StockCreateForm(forms.ModelForm):
     if not category:
       raise forms.ValidationError('This field is required')
     
-    for instance in Stock.objects.all():
-      if instance.category == category:
-        raise forms.ValidationError(category + ' is already created')
+    
     return category
 
 
@@ -25,12 +23,24 @@ class StockCreateForm(forms.ModelForm):
 
 
 class StockSearchForm(forms.ModelForm):
-   class Meta:
-     model = Stock
-     fields = ['category', 'item_name']
+    class Meta:
+      model = Stock
+      fields = ['category', 'item_name']
 
 
 class StockUpdateForm(forms.ModelForm):
 	class Meta:
 		model = Stock
 		fields = ['category', 'item_name', 'quantity']
+
+
+class IssueForm(forms.ModelForm):
+	class Meta:
+		model = Stock
+		fields = ['issue_quantity', 'issue_to']
+
+
+class ReceiveForm(forms.ModelForm):
+	class Meta:
+		model = Stock
+		fields = ['receive_quantity']
